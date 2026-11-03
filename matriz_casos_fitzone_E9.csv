@@ -1,0 +1,14 @@
+﻿caso_id,regla,entrada,resultado_esperado,resultado_real,tipo,prueba,estado
+CP-01,Lista de espera FIFO,"Espera=[10,20]; se libera un lugar",Oferta a socio 10; quedan [20],Oferta a socio 10; quedan [20],Éxito,test_cp01_fifo_offers_first_in_line,PASSED
+CP-02,Lista de espera FIFO,Espera vacía; se libera un lugar,WaitlistEmpty,Lanzó WaitlistEmpty,Error,test_cp02_empty_waitlist_rejected,PASSED
+CP-03,Lista de espera FIFO,Espera=[10]; se libera un lugar,Oferta a 10; la lista queda vacía,Oferta a 10; lista vacía [],Límite,test_cp03_single_member_leaves_waitlist_empty,PASSED
+CP-04,15 min para confirmar,Confirma a los 10 min,CONFIRMED,Estado CONFIRMED; devolvió socio 10,Éxito,test_cp04_confirm_within_window,PASSED
+CP-05,15 min para confirmar,Confirma a los 16 min,OfferExpired; estado EXPIRED,Lanzó OfferExpired; estado EXPIRED,Error,test_cp05_confirm_after_window_rejected,PASSED
+CP-06,15 min para confirmar,Confirma a los 15 min exactos,CONFIRMED (límite inclusivo),Aceptó la confirmación; devolvió socio 10,Límite,test_cp06_confirm_exactly_15_minutes_allowed,PASSED
+CP-07,Retraso 10 min => asignación inmediata,"Retraso 12 min; presente=[30,31]",Se asigna a 30,Asignó al socio 30,Éxito,test_cp07_no_show_assigns_present_member,PASSED
+CP-08,Retraso 10 min => asignación inmediata,Retraso 9 min; presente=[30],ValueError (muy pronto),Lanzó ValueError,Error,test_cp08_too_early_rejected,PASSED
+CP-09,Retraso 10 min => asignación inmediata,Retraso 10 min exactos; presente=[30],Se asigna a 30 (límite inclusivo),Asignó al socio 30,Límite,test_cp09_exactly_10_minutes_releases_spot,PASSED
+CP-10,Retraso 10 min => asignación inmediata,Retraso 12 min; nadie presente,WaitlistEmpty,Lanzó WaitlistEmpty,Error,test_cp10_no_present_member_rejected,PASSED
+CP-11,Persistencia lista de espera,Guardar posiciones 2 y 1 + commit,"Orden recuperado [10,20]","Orden recuperado [10,20]",Éxito,test_cp11_waitlist_commit_keeps_order,PASSED
+CP-12,Persistencia lista de espera,Guardar + rollback,Lista vacía [],Lista vacía [],Error,test_cp12_waitlist_rollback_discards,PASSED
+CP-13,Notificación (servicio simulado),Se ofrece lugar a socio 10,"notifier.send(10, T0+15min) una vez","send llamado una vez con (10, T0+15min)",Éxito,test_cp13_offer_notifies_member_with_deadline,PASSED
